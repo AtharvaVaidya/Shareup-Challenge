@@ -11,9 +11,9 @@ import Foundation
 
 public struct Letter: Codable, Equatable, Hashable {
     public let letter: String
-    public let letterGuessState: LetterGuessState
+    public let letterGuessState: LetterResult
 
-    public init(letter: String, letterGuessState: LetterGuessState) {
+    public init(letter: String, letterGuessState: LetterResult) {
         self.letter = letter
         self.letterGuessState = letterGuessState
     }
@@ -42,19 +42,13 @@ public struct WordGuess: Codable, Equatable, Hashable {
         })
     }
     
-    private static func letterGuessStateFor(letter: Character, letterOffset: String.Index, word: String) -> LetterGuessState {
+    private static func letterGuessStateFor(letter: Character, letterOffset: String.Index, word: String) -> LetterResult {
         if word[letterOffset] == letter {
             return .correct
         } else if word.contains(letter) {
-            return .existsInWord
+            return .wrongPosition
         } else {
             return .wrong
         }
-    }
-}
-
-fileprivate extension String {
-    subscript(index: Int) -> String {
-        String(self[self.index(startIndex, offsetBy: index)])
     }
 }

@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - Score
+
 public struct Score: Codable, Hashable {
     public var id: Int
     public var date: DayDate
@@ -13,6 +15,8 @@ public struct Score: Codable, Hashable {
         self.tries = tries
     }
 }
+
+// MARK: - DayDate
 
 public struct DayDate: Comparable, Codable, Hashable {
     public var year: Int
@@ -42,9 +46,9 @@ public struct DayDate: Comparable, Codable, Hashable {
         let string = try container.decode(String.self)
         let components = string.components(separatedBy: "-").compactMap(Int.init)
         guard components.count == 3 else { throw DecodingError.invalidFormat(string) }
-        year = components[0]
-        month = components[1]
-        day = components[2]
+        self.year = components[0]
+        self.month = components[1]
+        self.day = components[2]
     }
 
     public func encode(to encoder: Encoder) throws {

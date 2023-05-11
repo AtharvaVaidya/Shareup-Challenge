@@ -10,12 +10,12 @@ import UIKit
 
 final class LetterView: UIView {
     private var letter: String
-    private var letterGuessState: LetterGuessState
+    private var letterGuessState: LetterResult
     private var obscured: Bool
     
     private lazy var label: UILabel = makeLabel()
 
-    init(letter: String, letterGuessState: LetterGuessState, obscured: Bool) {
+    init(letter: String, letterGuessState: LetterResult, obscured: Bool) {
         precondition(letter.utf8.count == 1)
         self.letter = letter
         self.letterGuessState = letterGuessState
@@ -54,11 +54,11 @@ final class LetterView: UIView {
         return view
     }
 
-    private func backgroundColorFor(guessState: LetterGuessState) -> UIColor {
+    private func backgroundColorFor(guessState: LetterResult) -> UIColor {
         switch guessState {
         case .correct:
             return .systemGreen
-        case .existsInWord:
+        case .wrongPosition:
             return .systemYellow
         case .wrong:
             return .systemGray
