@@ -31,6 +31,9 @@ public class ScoresViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.addConstrainedSubview(collectionView)
+        
+        collectionView.delegate = self
+        
         scoresPublisher
             .replaceError(with: [])
             .receive(on: DispatchQueue.main)
@@ -48,13 +51,15 @@ private extension ScoresViewController {
     }
 
     func makeDataSource() -> UICollectionViewDiffableDataSource<Section, Int> {
-        let cellRegistration = UICollectionView.CellRegistration<ScoreCell, Score>
-        { cell, _, score in cell.score = score }
+        let cellRegistration = UICollectionView.CellRegistration<ScoreCell, ScoreData> { cell, _, scoreData in
+            cell.score = scoreData.score
+            cell.obscured = scoreData.obscured
+        }
 
         return UICollectionViewDiffableDataSource<Section, Int>(
             collectionView: collectionView
         ) { [weak self] collectionView, indexPath, itemIdentifier in
-            let score: Score? = self?.scores[itemIdentifier]
+            let score: ScoreData? = self?.scores[itemIdentifier]
             return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
@@ -68,12 +73,29 @@ private extension ScoresViewController {
             guard let self else { return }
             let animate = didApplyInitialSnapshot
             didApplyInitialSnapshot = true
-            self.scores = ScoresCollection(scores)
+            self.scores = ScoresCollection(scores.map({ ScoreData(score: $0, obscured: true) }))
             var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
             snapshot.appendSections([.scores])
             snapshot.appendItems(scores.map(\.id))
             dataSource.apply(snapshot, animatingDifferences: animate)
         }
+    }
+}
+
+extension ScoresViewController: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let scoreData = Array(scores)[indexPath.item].value
+        let newScoreData = ScoreData(score: scoreData.score, obscured: !scoreData.obscured)
+        scores[scoreData.score.id] = newScoreData
+      
+        var snapshot = dataSource.snapshot()
+        if #available(iOS 15.0, *) {
+            snapshot.reconfigureItems([newScoreData.score.id])
+        } else {
+            // Fallback on earlier versions
+            snapshot.reloadItems([newScoreData.score.id])
+        }
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 

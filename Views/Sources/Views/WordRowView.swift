@@ -10,7 +10,7 @@ import Core
 
 final class WordRowView: UIView {
     private var word: WordGuess
-    private lazy var letterViews: [LetterView] = word.letters.map { LetterView(letter: String($0.letter), letterGuessState: $0.letterGuessState) }
+    private lazy var letterViews: [LetterView] = makeLetterViews()
     private lazy var stackView: UIStackView = makeStackView()
     private var obscured: Bool
 
@@ -38,6 +38,16 @@ final class WordRowView: UIView {
         view.alignment = .center
         view.distribution = .fillEqually
         return view
+    }
+    
+    private func makeLetterViews() -> [LetterView] {
+        word.letters.map {
+            LetterView(
+                letter: String($0.letter),
+                letterGuessState: $0.letterGuessState,
+                obscured: obscured
+            )
+        }
     }
 
     private func setUpContraints() {

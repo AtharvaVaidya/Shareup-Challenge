@@ -2,10 +2,15 @@ import Core
 import Foundation
 import OrderedCollections
 
-typealias ScoresCollection = OrderedDictionary<Int, Score>
+struct ScoreData {
+    let score: Score
+    let obscured: Bool
+}
 
-extension OrderedDictionary where Key == Int, Value == Score {
+typealias ScoresCollection = OrderedDictionary<Int, ScoreData>
+
+extension OrderedDictionary where Key == Int, Value == ScoreData {
     init(_ values: [Value]) {
-        self.init(uniqueKeysWithValues: values.map { ($0.id, $0) })
+        self.init(uniqueKeysWithValues: values.map { ($0.score.id, $0) })
     }
 }

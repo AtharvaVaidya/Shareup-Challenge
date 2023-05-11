@@ -5,20 +5,24 @@
 //  Created by Atharva Vaidya on 11/05/2023.
 //
 
-import UIKit
 import Core
+import UIKit
 
 final class LetterView: UIView {
     private var letter: String
     private var letterGuessState: LetterGuessState
+    private var obscured: Bool
+    
     private lazy var label: UILabel = makeLabel()
 
-    init(letter: String, letterGuessState: LetterGuessState) {
+    init(letter: String, letterGuessState: LetterGuessState, obscured: Bool) {
         precondition(letter.utf8.count == 1)
         self.letter = letter
         self.letterGuessState = letterGuessState
+        self.obscured = obscured
         super.init(frame: .zero)
-        addConstrainedSubview(label)
+        addConstrainedSubview(label, insets: .init(top: 8, left: 8, bottom: 8, right: 8))
+        self.backgroundColor = backgroundColorFor(guessState: letterGuessState)
     }
 
     @available(*, unavailable)
@@ -29,23 +33,35 @@ final class LetterView: UIView {
     private func makeLabel() -> UILabel {
         let view = UILabel(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = obscured ? 0 : 1
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.setContentCompressionResistancePriority(.required, for: .vertical)
         view.numberOfLines = 1
         view.allowsDefaultTighteningForTruncation = false
         view.adjustsFontForContentSizeCategory = true
         view.textAlignment = .center
-        view.textColor = .label
-        view.backgroundColor = .systemFill
+        view.textColor = .white
+        view.backgroundColor = .clear
         view.text = letter.uppercased()
         let baseFont = UIFont.preferredFont(forTextStyle: .body)
-        
+
         guard let fontDescriptor = baseFont.fontDescriptor.withSymbolicTraits(.traitBold) else {
             view.font = baseFont
             return view
         }
-        
+
         view.font = UIFont(descriptor: fontDescriptor, size: baseFont.pointSize)
         return view
+    }
+
+    private func backgroundColorFor(guessState: LetterGuessState) -> UIColor {
+        switch guessState {
+        case .correct:
+            return .systemGreen
+        case .existsInWord:
+            return .systemYellow
+        case .wrong:
+            return .systemGray
+        }
     }
 }

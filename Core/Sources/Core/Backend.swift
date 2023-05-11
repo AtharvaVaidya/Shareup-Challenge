@@ -59,11 +59,13 @@ public extension Backend {
                         date: .init(year: 2022, month: 3, day: 8),
                         word: "sweet",
                         tries: [
-                            .init(guess: "corgi", word: "sweet"),
-                            .init(guess: "pause", word: "sweet"),
-                            .init(guess: "sleds", word: "sweet"),
-                            .init(guess: "sweet", word: "sweet")
-                        ]
+                            "corgi",
+                            "pause",
+                            "sleds",
+                            "sweet"
+                        ].map {
+                            .init(guess: $0, word: "sweet")
+                        }
                     ),
                     .init(
                         id: 263,
