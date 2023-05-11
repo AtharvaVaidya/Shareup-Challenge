@@ -9,13 +9,13 @@ I also embedded the view controller in a navigation controller, which makes the 
 
 I struggled to think quickly on how to fill the blank space on the right of all the cells. One option was to just fill up the entire width, but that would mean that our font size remains fixed regardless of the user's dynamic type preferences.
 
-###If I had more time
+### If I had more time
 - I'd implement a search/filter/sort functionality so users are able to find the result they're looking for quickly.
 - I'm not sure how other Wordle apps handle this, but showing the user the word after they've exhausted their guesses would also be pretty nice.
 - Also, CRUD capabilites to interact with the server. So adding the ability to delete, and create new Wordle plays.
 - Something that would've also been nice is a custom animation when the user taps to show the letters like a magic wand appearing over the boxes.
 
-###The Algorithm
+### The Algorithm
 
 How I've implemented the algorithm is pretty simple:
 
