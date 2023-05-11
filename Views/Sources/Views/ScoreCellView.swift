@@ -72,13 +72,18 @@ private class ScoreContentView: UIView, UIContentView {
     }
 
     private func apply(configuration: ScoreContentConfiguration) {
-        rowViews.forEach { $0.removeFromSuperview() }
+        rowViews.forEach {
+            stackView.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
+        
         rowViews.removeAll()
 
         dateLabel.text = configuration.date
         configuration.tries.forEach { word in
             let row = WordRowView(word: word, obscured: configuration.obscured)
             stackView.addArrangedSubview(row)
+            rowViews.append(row)
         }
 
         setNeedsLayout()
