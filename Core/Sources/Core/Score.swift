@@ -62,9 +62,13 @@ public struct DayDate: Comparable, Codable, Hashable {
     
     /// The date formatted and localized to display to the user.
     public var displayValue: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter.string(from: dateValue)
+        if #available(iOS 15.0, *) {
+            return dateValue.formatted(.dateTime.day().month(.wide))
+        } else {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            return formatter.string(from: dateValue)
+        }
     }
 
     public var dateValue: Date {
