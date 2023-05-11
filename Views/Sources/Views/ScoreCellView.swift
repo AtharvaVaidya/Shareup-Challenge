@@ -124,7 +124,7 @@ private class ScoreContentView: UIView, UIContentView {
                 date: .init(year: 2022, month: 3, day: 27),
                 word: "nymph",
                 tries: ["train", "ponds", "blume", "nymph"].map({
-                    WordGuess(guess: $0, word: "train")
+                    WordGuess(guess: $0, word: "nymph")
                 })
             ), obscured: Bool.random()))
         }
