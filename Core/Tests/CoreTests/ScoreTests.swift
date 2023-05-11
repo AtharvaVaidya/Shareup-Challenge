@@ -42,7 +42,7 @@ private extension ScoreTests {
             id: 1,
             date: .init(year: 2022, month: 3, day: 1),
             word: "sweet",
-            tries: ["corgi", "pause", "sleds", "sweet"]
+            tries: ["corgi", "pause", "sleds", "sweet"].map { .init(guess: $0, word: "sweet") }
         )
     }
 
@@ -68,19 +68,19 @@ private extension ScoreTests {
                 id: 264,
                 date: .init(year: 2022, month: 3, day: 10),
                 word: "lapse",
-                tries: ["stair", "peony", "lapse"]
+                tries: ["stair", "peony", "lapse"].map({ .init(guess: $0, word: "lapse") })
             ),
             Score(
                 id: 263,
                 date: .init(year: 2022, month: 3, day: 9),
                 word: "month",
-                tries: ["stair", "tuned", "monty", "month"]
+                tries: ["stair", "tuned", "monty", "month"].map({ .init(guess: $0, word: "month") })
             ),
             Score(
                 id: 262,
                 date: .init(year: 2022, month: 3, day: 8),
                 word: "sweet",
-                tries: ["corgi", "pause", "sleds", "sweet"]
+                tries: ["corgi", "pause", "sleds", "sweet"].map({ .init(guess: $0, word: "sweet") })
             ),
         ]
     }

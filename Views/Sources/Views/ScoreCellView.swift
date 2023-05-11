@@ -25,7 +25,7 @@ private struct ScoreContentConfiguration: UIContentConfiguration, Hashable {
             self.obscured = false
             return
         }
-        date = score.date.stringValue
+        date = score.date.displayValue
         tries = score.tries
         word = score.word
         self.obscured = obscured
