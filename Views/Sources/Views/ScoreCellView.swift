@@ -25,7 +25,7 @@ private struct ScoreContentConfiguration: UIContentConfiguration, Hashable {
             self.obscured = false
             return
         }
-        date = score.date.stringValue
+        date = score.date.displayValue
         tries = score.tries
         word = score.word
         self.obscured = obscured
@@ -53,6 +53,8 @@ private class ScoreContentView: UIView, UIContentView {
 
     private lazy var stackView: UIStackView = makeStackView()
     private lazy var dateLabel: UILabel = makeDateLabel()
+    private lazy var guessesLabel: UILabel = makeGuessesLabel()
+    
     private var rowViews: [WordRowView] = []
 
     init(configuration: ScoreContentConfiguration) {
@@ -80,6 +82,7 @@ private class ScoreContentView: UIView, UIContentView {
         rowViews.removeAll()
 
         dateLabel.text = configuration.date
+        guessesLabel.text = "\(configuration.tries.count)/6"
         configuration.tries.forEach { word in
             let row = WordRowView(word: word, obscured: configuration.obscured)
             stackView.addArrangedSubview(row)
@@ -90,15 +93,29 @@ private class ScoreContentView: UIView, UIContentView {
     }
 
     private func makeStackView() -> UIStackView {
-        let view = UIStackView(arrangedSubviews: [dateLabel])
+        let view = UIStackView(arrangedSubviews: [dateLabel, guessesLabel])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
-        view.spacing = 10
+        view.spacing = 2
+        view.setCustomSpacing(4, after: dateLabel)
+        view.setCustomSpacing(16, after: guessesLabel)
         view.alignment = .leading
         return view
     }
 
     private func makeDateLabel() -> UILabel {
+        let view = UILabel(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.numberOfLines = 1
+        view.lineBreakMode = .byTruncatingMiddle
+        view.allowsDefaultTighteningForTruncation = true
+        view.adjustsFontForContentSizeCategory = true
+        view.font = UIFont.preferredFont(forTextStyle: .title2).bold()
+        view.textColor = .label
+        return view
+    }
+    
+    private func makeGuessesLabel() -> UILabel {
         let view = UILabel(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 1

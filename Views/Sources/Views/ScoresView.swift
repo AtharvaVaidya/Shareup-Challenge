@@ -39,14 +39,20 @@ public class ScoresViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: onReceiveScores)
             .store(in: &cancellables)
+        
+        //Navbar setup
+        title = "Wordle Scores"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 }
 
 private extension ScoresViewController {
     func makeCollectionView() -> UICollectionView {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.showsSeparators = false
+        
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-
+        
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }
 

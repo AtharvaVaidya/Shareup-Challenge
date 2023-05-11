@@ -43,14 +43,7 @@ final class LetterView: UIView {
         view.textColor = .white
         view.backgroundColor = .clear
         view.text = letter.uppercased()
-        let baseFont = UIFont.preferredFont(forTextStyle: .body)
-
-        guard let fontDescriptor = baseFont.fontDescriptor.withSymbolicTraits(.traitBold) else {
-            view.font = baseFont
-            return view
-        }
-
-        view.font = UIFont(descriptor: fontDescriptor, size: baseFont.pointSize)
+        view.font = UIFont.preferredFont(forTextStyle: .body).bold()
         return view
     }
 

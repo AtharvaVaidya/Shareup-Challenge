@@ -11,11 +11,11 @@ import Foundation
 
 public struct Letter: Codable, Equatable, Hashable {
     public let letter: String
-    public let letterGuessState: LetterResult
+    public let letterResult: LetterResult
 
     public init(letter: String, letterGuessState: LetterResult) {
         self.letter = letter
-        self.letterGuessState = letterGuessState
+        self.letterResult = letterGuessState
     }
 }
 
@@ -37,12 +37,12 @@ public struct WordGuess: Codable, Equatable, Hashable {
         self.letters = guess.indices.map({ index in
             Letter(
                 letter: String(guess[index]),
-                letterGuessState: WordGuess.letterGuessStateFor(letter: guess[index], letterOffset: index, word: word)
+                letterGuessState: WordGuess.letterResultFor(letter: guess[index], letterOffset: index, word: word)
             )
         })
     }
     
-    private static func letterGuessStateFor(letter: Character, letterOffset: String.Index, word: String) -> LetterResult {
+    public static func letterResultFor(letter: Character, letterOffset: String.Index, word: String) -> LetterResult {
         if word[letterOffset] == letter {
             return .correct
         } else if word.contains(letter) {

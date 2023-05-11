@@ -44,7 +44,7 @@ final class WordRowView: UIView {
         word.letters.map {
             LetterView(
                 letter: String($0.letter),
-                letterGuessState: $0.letterGuessState,
+                letterGuessState: $0.letterResult,
                 obscured: obscured
             )
         }

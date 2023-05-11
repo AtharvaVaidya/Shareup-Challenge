@@ -14,9 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: scene)
         self.window = window
-        let root = ScoresViewController(
-            scoresPublisher: Backend.test
-                .typeErasedGetAllScores
+        let root = UINavigationController(
+            rootViewController: ScoresViewController(scoresPublisher: Backend.test.typeErasedGetAllScores)
         )
         self.root = root
         window.backgroundColor = .black
